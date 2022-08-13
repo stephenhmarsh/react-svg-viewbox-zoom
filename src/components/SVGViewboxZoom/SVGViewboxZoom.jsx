@@ -7,8 +7,8 @@ const SVGViewboxZoom = ({ SVG, initivalViewboxValues = [0, 0, 0, 0] }) => {
 	const [viewboxValues, setViewboxValues] = useState(initivalViewboxValues)
 	const [lastSetViewboxValues, setLastSetViewboxValues] = useState(viewboxValues);
 
-	const handlePinch = ({ pinching, offset }) => {
-		if (pinching) {
+	const handlePinch = ({ intentional, pinching, offset }) => {
+		if (pinching && intentional) {
 			const scaleFactor = offset[0]
 			const results = [
 				viewboxValues[0],
@@ -20,8 +20,8 @@ const SVGViewboxZoom = ({ SVG, initivalViewboxValues = [0, 0, 0, 0] }) => {
 		}
 	}
 
-	const handleDrag = ({ dragging, offset, last }) => {
-		if (dragging) {
+	const handleDrag = ({ dragging, intentional, offset, last }) => {
+		if (dragging && intentional) {
 			const results = [
 				lastSetViewboxValues[0] - offset[0],
 				lastSetViewboxValues[1] - offset[1],
@@ -46,7 +46,6 @@ const SVGViewboxZoom = ({ SVG, initivalViewboxValues = [0, 0, 0, 0] }) => {
 		pinch: { rubberband: false }
 	})
 
-
 	useEffect(() => {
 		console.log("ran")
 		document.addEventListener('gesturestart', preventDefault)
@@ -57,7 +56,6 @@ const SVGViewboxZoom = ({ SVG, initivalViewboxValues = [0, 0, 0, 0] }) => {
 			document.removeEventListener('gesturechange', preventDefault)
 		}
 	}, [])
-
 
 	return <div style={{ width: "100vw", overflow: "scroll", border: "1px solid red", touchAction: "none" }} ref={target} >
 		<SVG viewBox={viewboxValues.join(" ")} />
