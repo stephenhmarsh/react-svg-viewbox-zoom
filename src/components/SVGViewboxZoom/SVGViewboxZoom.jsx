@@ -7,7 +7,7 @@ const SVGViewboxZoom = ({ SVG, initivalViewboxValues = [0, 0, 0, 0] }) => {
 	const [viewboxValues, setViewboxValues] = useState(initivalViewboxValues)
 	const [lastSetViewboxValues, setLastSetViewboxValues] = useState(viewboxValues);
 
-	const handlePinch = ({ intentional, pinching, offset }) => {
+	const handlePinch = ({ intentional, pinching, offset, last }) => {
 		if (pinching && intentional) {
 			const scaleFactor = offset[0]
 			const results = [
@@ -17,6 +17,9 @@ const SVGViewboxZoom = ({ SVG, initivalViewboxValues = [0, 0, 0, 0] }) => {
 				lastSetViewboxValues[3] / scaleFactor
 			]
 			setViewboxValues(results)
+			if (last) {
+				setLastSetViewboxValues(results)
+			}
 		}
 	}
 
