@@ -3,6 +3,15 @@ import { useGesture } from '@use-gesture/react'
 
 const preventDefault = (e) => e.preventDefault()
 
+const handleMounting = () => {
+	document.addEventListener('gesturestart', preventDefault)
+	document.addEventListener('gesturechange', preventDefault)
+	return () => {
+		document.removeEventListener('gesturestart', preventDefault)
+		document.removeEventListener('gesturechange', preventDefault)
+	}
+}
+
 const SVGViewboxZoom = ({ SVG, initivalViewboxValues = [0, 0, 0, 0] }) => {
 	const [viewboxValues, setViewboxValues] = useState(initivalViewboxValues)
 	const [lastSetViewboxValues, setLastSetViewboxValues] = useState(viewboxValues);
@@ -49,14 +58,7 @@ const SVGViewboxZoom = ({ SVG, initivalViewboxValues = [0, 0, 0, 0] }) => {
 		pinch: { rubberband: false }
 	})
 
-	useEffect(() => {
-		document.addEventListener('gesturestart', preventDefault)
-		document.addEventListener('gesturechange', preventDefault)
-		return () => {
-			document.removeEventListener('gesturestart', preventDefault)
-			document.removeEventListener('gesturechange', preventDefault)
-		}
-	}, [])
+	useEffect(handleMounting, [])
 
 	return <div style={{ touchAction: "none" }} ref={target} >
 		<SVG viewBox={viewboxValues.join(" ")} />
