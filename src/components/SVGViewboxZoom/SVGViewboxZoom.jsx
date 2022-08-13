@@ -50,17 +50,15 @@ const SVGViewboxZoom = ({ SVG, initivalViewboxValues = [0, 0, 0, 0] }) => {
 	})
 
 	useEffect(() => {
-		console.log("ran")
 		document.addEventListener('gesturestart', preventDefault)
 		document.addEventListener('gesturechange', preventDefault)
 		return () => {
-			console.log("cleaning up")
 			document.removeEventListener('gesturestart', preventDefault)
 			document.removeEventListener('gesturechange', preventDefault)
 		}
 	}, [])
 
-	return <div style={{ width: "100vw", overflow: "scroll", border: "1px solid red", touchAction: "none" }} ref={target} >
+	return <div style={{ touchAction: "none" }} ref={target} >
 		<SVG viewBox={viewboxValues.join(" ")} />
 	</div>
 }

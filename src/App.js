@@ -1,5 +1,4 @@
 import ExampleSVG from './components/ExampleSVG/exampleSVG';
-import './App.css';
 import SVGViewboxZoom from './components/SVGViewboxZoom/SVGViewboxZoom';
 
 function App() {
