@@ -1,68 +1,78 @@
 import React, { useRef, useState, useEffect } from "react";
-import { useGesture, usePinch } from '@use-gesture/react'
+import { useGesture } from '@use-gesture/react'
+import { throttle } from "underscore";
+
+const preventDefault = (e) => e.preventDefault()
 
 const SVGViewboxZoom = ({ SVG, initivalViewboxValues = [0, 0, 0, 0] }) => {
 	const [viewboxValues, setViewboxValues] = useState(initivalViewboxValues)
 	const [lastSetViewboxValues, setLastSetViewboxValues] = useState(viewboxValues);
-	const [lastRunTimeStamp, setLastRunTimeStamp] = useState(0);
-
-	const target = useRef();
-
-	useEffect(() => {
-		document.addEventListener('gesturestart', (e) => e.preventDefault())
-		document.addEventListener('gesturechange', (e) => e.preventDefault())
-	})
 
 	const handlePinch = (state) => {
-		console.log(state.last, state.timeStamp, lastRunTimeStamp)
+		// console.log(state)
 		console.log("handlePinch", state);
 
-
-		if (state.first && state.timeStamp < (lastRunTimeStamp + 500)) {
-			console.log("should cancel")
-			state.cancel()
-			return;
-		}
-
 		const scaleFactor = state.movement[0]
+
 		const results = [
-			0,
-			0,
+			viewboxValues[0],
+			viewboxValues[1],
 			lastSetViewboxValues[2] / scaleFactor,
 			lastSetViewboxValues[3] / scaleFactor
 		]
 
 		if (state.pinching) {
-			// console.log("setting", results[2], results[3])
 			setViewboxValues(results)
 		}
 		if (state.last) {
 			setLastSetViewboxValues(results)
-			setLastRunTimeStamp(state.timeStamp)
+			// setLastRunTimeStamp(state.timeStamp)
 		}
-		// }
+
 	}
 
-	// const handlePinchEnd = (state) => {
-	// 	console.log("handlePinchEnd", state);
+	const handleDrag = (state) => {
+		console.log(state)
+		if (state.dragging) {
+			setViewboxValues(
+				[
+					viewboxValues[0] - ((state.distance[0] * state.direction[0]) / 4),
+					viewboxValues[1] - ((state.distance[1] * state.direction[1] / 4)),
+					viewboxValues[2],
+					viewboxValues[3]
+				]
+			)
+		}
+	}
 
-	// }
+	const throttledPinch = throttle(handlePinch, 200, { trailing: false })
 
-	usePinch(handlePinch, {
-		// "Because React doesn't support proprietary Webkit GestureEvents, you will need to attach the gesture using a ref, with the target option."
-		// https://use-gesture.netlify.app/docs/gestures/#about-the-pinch-gesture
-		// https://use-gesture.netlify.app/docs/options/#target
+	const target = useRef();
+
+	useGesture({
+		onDrag: handleDrag,
+		onPinch: throttledPinch
+	}, {
 		target,
-		// just to be sure elsaticity doesn't fire weird values/extra first/lasts
-		rubberband: false,
+		// rubberband: false,
+		drag: { rubberband: false },
+		pinch: { rubberband: false }
 	})
 
-	// const bind = useGesture(
-	// 	{ onPinchEnd: handlePinchEnd },
-	// 	{ pinch: { target } }
-	// )
 
-	return <div style={{ width: "100%", border: "1px solid red" }} ref={target} >
+	useEffect(() => {
+		console.log("ran")
+		document.addEventListener('gesturestart', preventDefault)
+		document.addEventListener('gesturechange', preventDefault)
+		return () => {
+			console.log("cleaning up")
+			document.removeEventListener('gesturestart', preventDefault)
+			document.removeEventListener('gesturechange', preventDefault)
+		}
+	}, [])
+
+
+	return <div style={{ width: "100vw", overflow: "scroll", border: "1px solid red", touchAction: "none" }} ref={target} >
 		<SVG viewBox={viewboxValues.join(" ")} />
 	</div>
 }

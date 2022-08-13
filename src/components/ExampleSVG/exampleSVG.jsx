@@ -1,8 +1,8 @@
 import React from "react";
 
-class ExampleSVG extends React.Component {
+class ExampleSVG extends React.PureComponent {
   render() {
-    return <svg width="2370" height="626" viewBox={this.props.viewBox} fill="none" xmlns="http://www.w3.org/2000/svg">
+    return <svg width="2370" height="626" viewBox={this.props.viewBox} fill="none" xmlns="http://www.w3.org/2000/svg" style={{ border: "1px solid blue" }}>
       <g id="Map_GR_SVG">
         <g id="walls">
           <rect id="Rectangle 57" width="38" height="226" fill="#898989"></rect>
