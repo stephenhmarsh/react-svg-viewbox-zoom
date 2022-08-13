@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useGesture } from '@use-gesture/react'
-import { throttle } from "underscore";
 
 const preventDefault = (e) => e.preventDefault()
 
@@ -8,53 +7,41 @@ const SVGViewboxZoom = ({ SVG, initivalViewboxValues = [0, 0, 0, 0] }) => {
 	const [viewboxValues, setViewboxValues] = useState(initivalViewboxValues)
 	const [lastSetViewboxValues, setLastSetViewboxValues] = useState(viewboxValues);
 
-	const handlePinch = (state) => {
-		// console.log("handlePinch", state);
-
-		const scaleFactor = state.offset[0]
-
-		const results = [
-			viewboxValues[0],
-			viewboxValues[1],
-			lastSetViewboxValues[2] / scaleFactor,
-			lastSetViewboxValues[3] / scaleFactor
-		]
-
-		if (state.pinching) {
+	const handlePinch = ({ pinching, offset }) => {
+		if (pinching) {
+			const scaleFactor = offset[0]
+			const results = [
+				viewboxValues[0],
+				viewboxValues[1],
+				lastSetViewboxValues[2] / scaleFactor,
+				lastSetViewboxValues[3] / scaleFactor
+			]
 			setViewboxValues(results)
 		}
-
-
 	}
 
-	const handleDrag = (state) => {
-		console.log("draggin", state)
-		if (state.dragging) {
-
+	const handleDrag = ({ dragging, offset, last }) => {
+		if (dragging) {
 			const results = [
-				lastSetViewboxValues[0] - state.offset[0],
-				lastSetViewboxValues[1] - state.offset[1],
+				lastSetViewboxValues[0] - offset[0],
+				lastSetViewboxValues[1] - offset[1],
 				viewboxValues[2],
 				viewboxValues[3]
 			]
-
 			setViewboxValues(results)
-			if (state.last) {
+			if (last) {
 				setLastSetViewboxValues(results)
 			}
 		}
 	}
 
-	const throttledPinch = throttle(handlePinch, 200, { trailing: false })
-
 	const target = useRef();
 
 	useGesture({
 		onDrag: handleDrag,
-		onPinch: throttledPinch
+		onPinch: handlePinch,
 	}, {
 		target,
-		// rubberband: false,
 		drag: { rubberband: false },
 		pinch: { rubberband: false }
 	})
