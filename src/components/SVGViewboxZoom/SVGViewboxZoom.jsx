@@ -9,10 +9,9 @@ const SVGViewboxZoom = ({ SVG, initivalViewboxValues = [0, 0, 0, 0] }) => {
 	const [lastSetViewboxValues, setLastSetViewboxValues] = useState(viewboxValues);
 
 	const handlePinch = (state) => {
-		// console.log(state)
-		console.log("handlePinch", state);
+		// console.log("handlePinch", state);
 
-		const scaleFactor = state.movement[0]
+		const scaleFactor = state.offset[0]
 
 		const results = [
 			viewboxValues[0],
@@ -24,24 +23,25 @@ const SVGViewboxZoom = ({ SVG, initivalViewboxValues = [0, 0, 0, 0] }) => {
 		if (state.pinching) {
 			setViewboxValues(results)
 		}
-		if (state.last) {
-			setLastSetViewboxValues(results)
-			// setLastRunTimeStamp(state.timeStamp)
-		}
+
 
 	}
 
 	const handleDrag = (state) => {
-		console.log(state)
+		console.log("draggin", state)
 		if (state.dragging) {
-			setViewboxValues(
-				[
-					viewboxValues[0] - ((state.distance[0] * state.direction[0]) / 4),
-					viewboxValues[1] - ((state.distance[1] * state.direction[1] / 4)),
-					viewboxValues[2],
-					viewboxValues[3]
-				]
-			)
+
+			const results = [
+				lastSetViewboxValues[0] - state.offset[0],
+				lastSetViewboxValues[1] - state.offset[1],
+				viewboxValues[2],
+				viewboxValues[3]
+			]
+
+			setViewboxValues(results)
+			if (state.last) {
+				setLastSetViewboxValues(results)
+			}
 		}
 	}
 
