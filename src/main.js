@@ -1,3 +1,3 @@
-import SVGViewboxZoom from "./components/SVGViewboxZoom/SVGViewboxZoom";
+import SVGViewboxZoom from "./components/SVGViewboxZoom/SVGViewboxZoom.jsx";
 
 export default SVGViewboxZoom;
