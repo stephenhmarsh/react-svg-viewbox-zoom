@@ -16,6 +16,22 @@ const SVGViewboxZoom = ({ SVG, initivalViewboxValues = [0, 0, 0, 0] }) => {
 	const [viewboxValues, setViewboxValues] = useState(initivalViewboxValues)
 	const [lastSetViewboxValues, setLastSetViewboxValues] = useState(viewboxValues);
 
+	const handleDrag = ({ cancel, dragging, intentional, last, offset, pinching }) => {
+		if (pinching) return cancel();
+		if (dragging && intentional) {
+			const results = [
+				lastSetViewboxValues[0] - offset[0],
+				lastSetViewboxValues[1] - offset[1],
+				viewboxValues[2],
+				viewboxValues[3]
+			]
+			setViewboxValues(results)
+			if (last) {
+				setLastSetViewboxValues(results)
+			}
+		}
+	}
+
 	const handlePinch = ({ intentional, pinching, offset, last }) => {
 		if (pinching && intentional) {
 			const scaleFactor = offset[0]
@@ -32,21 +48,6 @@ const SVGViewboxZoom = ({ SVG, initivalViewboxValues = [0, 0, 0, 0] }) => {
 		}
 	}
 
-	const handleDrag = ({ dragging, intentional, offset, last }) => {
-		if (dragging && intentional) {
-			const results = [
-				lastSetViewboxValues[0] - offset[0],
-				lastSetViewboxValues[1] - offset[1],
-				viewboxValues[2],
-				viewboxValues[3]
-			]
-			setViewboxValues(results)
-			if (last) {
-				setLastSetViewboxValues(results)
-			}
-		}
-	}
-
 	const target = useRef();
 
 	useGesture({
@@ -54,8 +55,8 @@ const SVGViewboxZoom = ({ SVG, initivalViewboxValues = [0, 0, 0, 0] }) => {
 		onPinch: handlePinch,
 	}, {
 		target,
-		drag: { rubberband: false },
-		pinch: { rubberband: false }
+		drag: { passive: false, rubberband: false },
+		pinch: { passive: false, rubberband: false }
 	})
 
 	useEffect(handleMounting, [])
