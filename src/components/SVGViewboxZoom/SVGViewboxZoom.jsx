@@ -1,16 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useGesture } from '@use-gesture/react'
-
-const preventDefault = (e) => e.preventDefault()
-
-const handleMounting = () => {
-	document.addEventListener('gesturestart', preventDefault)
-	document.addEventListener('gesturechange', preventDefault)
-	return () => {
-		document.removeEventListener('gesturestart', preventDefault)
-		document.removeEventListener('gesturechange', preventDefault)
-	}
-}
+import handleMounting from "./handleMounting";
 
 const SVGViewboxZoom = ({ SVG, initivalViewboxValues = [0, 0, 0, 0] }) => {
 	const [viewboxValues, setViewboxValues] = useState(initivalViewboxValues)
