@@ -1,9 +1,9 @@
 {
   "name": "react-svg-viewbox-zoom",
   "author": "Stephen Marsh (https://stephenmar.sh)",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": false,
-  "main": "src/main.js",
+  "main": "./src/main.js",
   "dependencies": {
     "@use-gesture/react": "^10.2.18"
   },
