@@ -1,0 +1,28 @@
+{
+	"name": "react-svg-viewbox-zoom",
+	"type": "module",
+	"version": "1.0.4",
+	"author": "Stephen Marsh (https://stephenmar.sh)",
+	"source": "src/index.js",
+	"exports": {
+		"require": "./dist/index.cjs",
+		"default": "./dist/index.modern.js"
+	},
+	"license": "MIT",
+	"main": "./dist/index.cjs",
+	"module": "./dist/index.module.js",
+	"unpkg": "./dist/index.umd.js",
+	"scripts": {
+		"build": "microbundle --jsx React.createElement",
+		"dev": "microbundle watch"
+	},
+	"devDependencies": {
+		"microbundle": "^0.15.1"
+	},
+	"dependencies": {
+		"@use-gesture/react": "^10.2.18"
+	},
+	"peerDependencies": {
+		"react": ">= 16.8.0"
+	}
+}
