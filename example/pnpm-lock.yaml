@@ -7,6 +7,7 @@ specifiers:
   react: ^18.2.0
   react-dom: ^18.2.0
   react-scripts: 5.0.1
+  react-svg-viewbox-zoom: 1.0.4
   web-vitals: ^2.1.4
 
 dependencies:
@@ -16,6 +17,7 @@ dependencies:
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-scripts: 5.0.1_react@18.2.0
+  react-svg-viewbox-zoom: 1.0.4_react@18.2.0
   web-vitals: 2.1.4
 
 packages:
@@ -2620,6 +2622,19 @@ packages:
     dependencies:
       '@typescript-eslint/types': 5.33.1
       eslint-visitor-keys: 3.3.0
+    dev: false
+
+  /@use-gesture/core/10.2.18:
+    resolution: {integrity: sha512-O+qxBlKxPtYM/LyRnK/U5MhVA9kKHj4C2yHsUurDxNO0a8D1PHLz9YmMPh2UXGQE4wtSke03GsLqRsHbUvN9nw==}
+    dev: false
+
+  /@use-gesture/react/10.2.18_react@18.2.0:
+    resolution: {integrity: sha512-MJQ5q/huXIER3st3bsmuWA7lxcdwZd28KJoBPFPNxKFenjF47smaiCCf+dLjUBiTV0DiIYAN4pXK19KxwfnUgg==}
+    peerDependencies:
+      react: '>= 16.8.0'
+    dependencies:
+      '@use-gesture/core': 10.2.18
+      react: 18.2.0
     dev: false
 
   /@webassemblyjs/ast/1.11.1:
@@ -8155,6 +8170,15 @@ packages:
       - webpack-cli
       - webpack-hot-middleware
       - webpack-plugin-serve
+    dev: false
+
+  /react-svg-viewbox-zoom/1.0.4_react@18.2.0:
+    resolution: {integrity: sha512-EUxjGtDoaHdv6r+zUjs//40Rs4ymaXCXjwpZoEEquV2HE21cyulGbYHnxj2brfPqlpBE/UBaPrepPGkf6WCANw==}
+    peerDependencies:
+      react: '>= 16.8.0'
+    dependencies:
+      '@use-gesture/react': 10.2.18_react@18.2.0
+      react: 18.2.0
     dev: false
 
   /react/18.2.0:
