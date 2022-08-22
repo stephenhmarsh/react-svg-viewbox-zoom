@@ -1,0 +1,22 @@
+{
+  "0 debug pnpm:scope": {
+    "selected": 1
+  },
+  "1 error pnpm": {
+    "code": "ELIFECYCLE",
+    "errno": "ENOENT",
+    "syscall": "spawn",
+    "file": "sh",
+    "pkgid": "react-svg-viewbox-zoom-example@0.1.0",
+    "stage": "start",
+    "script": "react-scripts start",
+    "pkgname": "react-svg-viewbox-zoom-example",
+    "err": {
+      "name": "pnpm",
+      "message": "react-svg-viewbox-zoom-example@0.1.0 start: `react-scripts start`\nspawn ENOENT",
+      "code": "ELIFECYCLE",
+      "stack": "pnpm: react-svg-viewbox-zoom-example@0.1.0 start: `react-scripts start`\nspawn ENOENT\n    at ChildProcess.<anonymous> (/opt/homebrew/lib/node_modules/pnpm/dist/pnpm.cjs:94974:22)\n    at ChildProcess.emit (node:events:537:28)\n    at maybeClose (node:internal/child_process:1091:16)\n    at ChildProcess._handle.onexit (node:internal/child_process:302:5)"
+    }
+  },
+  "2 warn pnpm:global": " Local package.json exists, but node_modules missing, did you mean to install?"
+}
